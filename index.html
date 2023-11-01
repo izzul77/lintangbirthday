@@ -1,0 +1,339 @@
+<html>
+<head>
+   <title>Halo Lintang!</title>
+   <style>* {
+   margin: 0;
+   padding: 0;
+   }
+    .text-input {
+             text-align: center;              
+             width: 50%;
+             padding: 10px;
+             margin-bottom: 10px;
+             border: 1px solid #ccc;
+             border-radius: 20px;
+             
+         }
+    .submit-button {
+        width: 10%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    } 
+   .hadiah{
+    display: none;
+   } 
+   form{
+    width:100%;
+    text-align: center;
+   } 
+   body {
+   background-color: black;
+   }
+   audio{
+    display: none;
+   }
+   h1 {
+   margin-top: 5%;
+   font-family: 'Segoe UI';
+   font-size: 60px;
+   text-align: center;
+   color: white;
+   }
+   </style>
+</head>
+<body>
+    <audio id="musik" controls>
+        <source src="assets\musik.mp3" type="audio/mpeg">
+    </audio>
+	<h1 class="animated-text">Hei, Lintang!</h2>
+    <br>
+    <form name="hadiah" id="hadiah" class="hadiah">
+        <input type="text" class="text-input" placeholder="Aku Beri Satu Permintaan!" name="mauhadiah" required>
+        <br>
+        <button type="submit" class="submit-button">Kirim Permintaan</button>
+    </form>
+   <script>
+     var musik = document.getElementById("musik");
+
+        // Atur pemutaran musik setelah 5 detik
+        setTimeout(function() {
+            musik.play(); // Mulai pemutaran musik
+        }, 14000); // 5000 milidetik = 5 detik
+       var tampilanTeks = document.querySelector(".animated-text");
+        var teks = [
+            'Apa Kabar?',
+            'Hari Ini Kamu Ulang Tahun Ya?',
+            'Wahhhh, Selamat Yah!',
+            'Eh Tapi Sebentar, Ada Yang Kurang.',
+            '','',
+            'Oke Aku Lanjut Ya.',
+            'Selamat Ulang Tahun Sahabatku, Lintang!',
+            'Semoga Hari Ini Kamu Bahagia Ya.',
+            'Karena Banyak Yang Pengen Liat Kamu Bahagia.',
+            'Mamah Kamu.',
+            'Bapak Kamu.',
+            'Keluarga Kamu.',
+            'Termasuk Aku.',
+            'Kamu Sehat Sehat Ya.',
+            'Pola Makan Di Jaga.',
+            'Pola Tidur Di Jaga.',
+            'Aku Ga Mau Kamu Sakit.',
+            'Apalagi Hatimu.',
+            'Pesanku Satu.',
+            'Kamu Harus Tetep Berusaha.',
+            'Tapi Jangan Kamu Berikan Harapanmu Pada Manusia.',
+            'Pasti Akan Kecewa.',
+            'Oiya, Ada Yang Lupa.',
+            'Ulang Tahun Ga Lengkap Kalau Tanpa Hadiah.',
+            'Tapi Untuk Sekarang Aku Cuma Bisa Kasih Doa Yah Hehe.',
+            'Pokonya Doa Yang Terbaik Buat Kamu Lintang :)',
+            'Sama Satu Lagi.',
+            'Mungkin Aku Bisa Kasi Kamu Satu Permintaan.',
+            'Boleh Apa Saja,',
+            'Tapi Aku Ga Janji Bakal Kasi Dalam Waktu Dekat Ya.',
+            'Tapi Pasti Aku Kabulin Ko, Hehe.',
+            'Kamu Tulis Dlu Aja Ya Disini.'
+        ];
+
+
+        var currentIndex = 0;
+        var interval;
+        var formContainer = document.querySelector(".hadiah");
+        
+
+        function tampilkanTeksBerbeda() {
+            tampilanTeks.innerHTML = teks[currentIndex];
+            if (currentIndex === teks.length - 1) {
+                clearInterval(interval);
+                formContainer.style.display = "block"; // Tampilkan tombol Ulangi ketika mencapai teks terakhir
+            } else {
+                currentIndex++;
+            }
+        }
+
+        // Atur interval untuk mengganti teks setiap 2 detik
+        interval = setInterval(tampilkanTeksBerbeda, 5000);
+
+        // Fungsi untuk mengulangi animasi
+        // function ulangiAnimasi() {
+        //     currentIndex = 0;
+        //     buttonContainer.style.display = "none"; // Sembunyikan tombol Ulangi
+        //     interval = setInterval(tampilkanTeksBerbeda, 5000);
+        // }
+   
+   var rnd = Math.random, flr = Math.floor;
+   let canvas = document.createElement('canvas');
+   
+   document.getElementsByTagName('body')[0].appendChild(canvas);
+   canvas.style.position = 'absolute';
+   canvas.style.width = '100%';
+   canvas.style.height = '100%';
+   
+   canvas.width = canvas.clientWidth;
+   canvas.height = canvas.clientHeight;
+   
+   let ctx = canvas.getContext('2d');
+   
+   function rndNum(num) {
+   return rnd() * num + 1;
+   }
+   
+   function vector(x, y) {
+   this.x = x;
+   this.y = y;
+   
+   this.add = function(vec2) {
+   this.x = this.x + vec2.x;
+   this.y = this.y + vec2.y;
+   }
+   }
+   
+   function particle(pos, vel) {
+   this.pos = new vector(pos.x, pos.y);
+   this.vel = vel;
+   this.finish = false;
+   this.start = 0;
+   
+   this.update = function(time) {
+   let timeSpan = time - this.start;
+   
+   if (timeSpan > 500) {
+   this.finish = true;
+   }
+   
+   if (!this.finish) {
+   this.pos.add(this.vel);
+   this.vel.y = this.vel.y + gravity;
+   }
+   };
+   
+   this.draw = function() {
+   if (!this.finish) {
+   drawDot(this.pos.x, this.pos.y, 1);
+   }
+   }
+   
+   }
+   
+   function firework(x, y) {
+   this.pos = new vector(x, y);
+   this.vel = new vector(0, -rndNum(10) - 3);
+   this.color = 'hsl(' + rndNum(360) + ', 100%, 50%)'
+   this.size = 4;
+   this.finish = false;
+   this.start = 0;
+   let exParticles = [], exPLen = 100;
+   
+   let rootShow = true;
+   
+   this.update = function(time) {
+   if (this.finish) {
+   return;
+   }
+   
+   rootShow = this.vel.y < 0;
+   
+   if (rootShow) {
+   this.pos.add(this.vel);
+   this.vel.y = this.vel.y + gravity;
+   } else {
+   if (exParticles.length === 0) {
+   flash = true;
+   for (let i = 0; i < exPLen; i++) {
+   exParticles.push(new particle(this.pos, new vector(-rndNum(10) + 5, -rndNum(10) + 5)));
+   exParticles[exParticles.length - 1].start = time;
+   }
+   }
+   let countFinish = 0;
+   for (let i = 0; i < exPLen; i++) {
+   let p = exParticles[i];
+   p.update(time);
+   if (p.finish) {
+   countFinish++;
+   }
+   }
+   
+   if (countFinish === exPLen) {
+   this.finish = true;
+   }
+   
+   }
+   }
+   
+   this.draw = function() {
+   if (this.finish) {
+   return;
+   }
+   
+   ctx.fillStyle = this.color;
+   if (rootShow) {
+   drawDot(this.pos.x, this.pos.y, this.size);
+   } else {
+   for (let i = 0; i < exPLen; i++) {
+   let p = exParticles[i];
+   p.draw();
+   }
+   }
+   }
+   
+   }
+   
+   function drawDot(x, y, size) {
+   ctx.beginPath();
+   
+   ctx.arc(x, y, size, 0, Math.PI * 2);
+   ctx.fill();
+   
+   ctx.closePath();
+   }
+   
+   var fireworks = [],
+   gravity = 0.2,
+   snapTime = 0,
+   flash = false;
+   
+   function init() {
+   let numOfFireworks = 20;
+   for (let i = 0; i < numOfFireworks; i++) {
+   fireworks.push(new firework(rndNum(canvas.width), canvas.height));
+   }
+   }
+   
+   function update(time) {
+   for (let i = 0, len = fireworks.length; i < len; i++) {
+   let p = fireworks[i];
+   p.update(time);
+   }
+   }
+   
+   function draw(time) {
+   update(time);
+   
+   ctx.fillStyle = 'rgba(0,0,0,0.3)';
+   if (flash) {
+   flash = false;
+   }
+   ctx.fillRect(0, 0, canvas.width, canvas.height);
+   
+   ctx.fillStyle = 'white';
+   ctx.font = "30px Segoe UI";
+   let newTime = time - snapTime;
+   snapTime = time;
+   
+   ctx.fillStyle = 'blue';
+   for (let i = 0, len = fireworks.length; i < len; i++) {
+   let p = fireworks[i];
+   if (p.finish) {
+   fireworks[i] = new firework(rndNum(canvas.width), canvas.height);
+   p = fireworks[i];
+   p.start = time;
+   }
+   p.draw();
+   }
+   
+   window.requestAnimationFrame(draw);
+   }
+   
+   window.addEventListener('resize', function() {
+   canvas.width = canvas.clientWidth;
+   canvas.height = canvas.clientHeight;
+   });
+   function jalankanFungsiSetelahWaktu() {
+            setTimeout(function() {
+                // Fungsi yang akan dijalankan setelah 5 detik
+                init();
+                draw();
+            }, 27000); // 5000 milidetik = 5 detik
+        };
+    jalankanFungsiSetelahWaktu();
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyZqo_axZlWMJnxkMyMjpOZYhmJkacpG7uKGHkE5ULYmZu8_P55K81yyrs5ILyz-SAQ/exec'
+        const form = document.forms['hadiah']
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => tampilanTeks.innerHTML="Permintaan Kamu Akan Segera Terkabul",formContainer.style.display = "none")
+            .catch(error => tampilanTeks.innerHTML="Permintaan Kamu Gagal, Coba Lagi!")
+            // if (response != null){
+            //     tampilanTeks.innerHTML="Permintaan Kamu Akan Segera Terkabul";
+            //     formContainer.style.display = "none";
+            // }
+        })
+   </script>
+</body>
+</html>
+<!-- 
+<html>
+	<head>
+		<body>
+			<body bgcolor="black"><center><br>
+			<font face="Abel" size="6px" color="grey"><b></b>
+			<br><font size="3px">
+			<font color="white">[ </font><marquee scrollamount="5" width="630" height="20" behavior="alternate">Selamat ulang tahun Dek. Semoga panjang umur, murah rejeki, dan sehat selalu. Ingat selalu pesan kakak! Jaga kehormatan dan wibawa keluarga kita!</marquee><font color="white"> ]</font>
+			<br><br><font size="3px" face="Ubuntu Condensed">
+		</body>
+	</font> -->
